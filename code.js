@@ -1,3 +1,15 @@
+/*  
+    Created By Shreshth Narayan Singh
+    Email me at shreshthns.425@gmail.com
+    Or call me at +91-9660303008
+    Hope you enjoy the app!
+    Created using javascript
+    Automated sound was made only with the help of responsive voice.org
+    Background Music was imported from wondershare
+*/
+
+
+
 //Name Spacing Matter.js
     const Engine = Matter.Engine;
     const World= Matter.World;
@@ -10,6 +22,9 @@
     var friend,friend1,friend2;
     var music
     var backgroundImg;
+    var appState="start";
+    var nameForm,name,age;
+    var database;
 
 //load sounds and images    
     function preload(){
@@ -18,6 +33,7 @@
     }
 
 function setup(){       
+
     //Create canvas of width 400 and height 400
         var canvas = createCanvas(800,400);
     
@@ -32,11 +48,18 @@ function setup(){
        
     //Play background music
         music.play();
-
+        
+    nameForm=new NameInput(); 
+    ageForm = new AgeInput();
+    database = firebase.database()
+ 
 }
 
 function draw(){
-    
+    console.log(name)
+    console.log(age)
+
+    //ageForm.updateAge()
     //Everything is displayed only when background Image is loaded
         if(backgroundImg){
 
@@ -45,50 +68,41 @@ function draw(){
 
             //Play sounds
                 for(i=0;i<1;i++){
-                    if(frameCount>50 && frameCount<53){
+                    if(frameCount===50){
                         responsiveVoice.speak("hello");
                     }
-                    else if(frameCount>150 && frameCount<153){
+                    else if(frameCount===150){
                         responsiveVoice.cancel();
                         responsiveVoice.speak("my name is friendabot");
                     }
-                    else if(frameCount>250 && frameCount<253){   
+                    else if(frameCount===250){   
                         responsiveVoice.cancel();
                         responsiveVoice.speak("Meet my friend Sam")
                     }
-                    else if(frameCount>350 && frameCount<353){
+                    else if(frameCount===350){
                         responsiveVoice.cancel()
-                        responsiveVoice.speak("Hey! Enough Introduction about ourselves! What is your name?","US English Male")
+                        responsiveVoice.speak("Hey! Enough Introduction about ourselves! What is your name?","Hindi Male")
+                    }if(frameCount===350){
+                        nameForm.display()
                     }
-                }    
+                }
+
                     
             //Update engine
                 Engine.update(engine);
-                
+                console.log(frameCount)
             //Display cartoon friend 'friendabot'
                 friend.display();
                                 
             //Give texts settings
                 getTextColor();
                 noStroke();
-                textSize(20)
-
-            //Display texts
-                for(i=0;i<1;i++){    
-                    if(frameCount>50 && frameCount<150){
-                            textSize(30)
-                            text("Hello!",540,325)    
-                    }else if(frameCount>150 && frameCount<250){
-                            text("My name is friendabot!",450,325)
-                    }else if(frameCount>250 && frameCount<350){
-                            text("Meet my friend,Sam!",450,325);
-                            friend1.display();
-                    }else if(frameCount>350){
-                            friend2.display();
-                            text("Hey! Enough Introduction about ourselves. What is your name?",100,340)
-                    }
-                }
-        }
+                textSize(20)                    
+                if(frameCount>250)
+                friend2.display();
+                nameForm.updateName()
+                ageForm.updateAge()
+            }
 
 }
 
