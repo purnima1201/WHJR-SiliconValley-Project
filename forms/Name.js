@@ -16,13 +16,9 @@ class NameInput{
             responsiveVoice.speak("Welcome! "+name);
             responsiveVoice.speak("How old are you?")
             ageForm.display()
-        })
-    }
-    updateName(){
-        database.ref(userIndex).set({
-            Name:name
+            updateDetails();
         })
     }
 
-    }
+}
     

@@ -12,11 +12,8 @@ class AgeInput{
             submit1Button.hide()
             age=ageInput.value()
             responsiveVoice.speak("Cool")
-        })
-    }
-    updateAge(){
-        database.ref(userIndex).set({
-            Age:age
+            updateDetails();
+            
         })
     }
     

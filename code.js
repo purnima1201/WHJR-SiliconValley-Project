@@ -132,3 +132,9 @@ async function getBackgroundImg(){
     }
     
 }
+function updateDetails() {
+    database.ref(userIndex).set({
+        Name: name,
+        Age: age
+    })
+}
