@@ -8,6 +8,8 @@ class NameInput{
         var submitButton = createButton("Submit")
         submitButton.position(100,375)
         submitButton.mousePressed(function (){
+            index++;
+            userIndex="user"+index;
             nameInput.hide()
             submitButton.hide()
             name=nameInput.value()
@@ -17,7 +19,7 @@ class NameInput{
         })
     }
     updateName(){
-        database.ref(name).set({
+        database.ref(userIndex).set({
             Name:name
         })
     }

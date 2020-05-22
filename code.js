@@ -23,31 +23,32 @@
     var music
     var backgroundImg;
     var appState="start";
-    var nameForm,name,age;
+    var nameForm,name,age,index=0,userIndex="";
     var database;
 
 //load sounds and images    
     function preload(){
         getBackgroundImg();        
+        getTextColor();
         music = loadSound("audio/BackgroundMusic1.mp3")
     }
 
 function setup(){       
 
     //Create canvas of width 400 and height 400
-        var canvas = createCanvas(800,400);
+    var canvas = createCanvas(800,400);
     
     //Create engine and world
-        engine = Engine.create();
-        world = engine.world;
+    engine = Engine.create();
+    world = engine.world;
 
     //Create cartoon friend(s)    
-        friend=new FriendSayingHi(700,340,100,120);
-        friend1=new FriendSamSide(50,340,80,120);
-        friend2=new FriendSmiling(55,340,80,120)
+    friend=new FriendSayingHi(700,340,100,120);
+    friend1=new FriendSamSide(50,340,80,120);
+    friend2=new FriendSmiling(55,340,80,120)
        
     //Play background music
-        music.play();
+    music.play();
         
     nameForm=new NameInput(); 
     ageForm = new AgeInput();
@@ -56,53 +57,49 @@ function setup(){
 }
 
 function draw(){
-    console.log(name)
-    console.log(age)
+    
 
     //ageForm.updateAge()
     //Everything is displayed only when background Image is loaded
-        if(backgroundImg){
+    if (backgroundImg) {
 
-            //Draw a background
-                background(backgroundImg);
+        //Draw a background
+        background(backgroundImg);
 
-            //Play sounds
-                for(i=0;i<1;i++){
-                    if(frameCount===50){
-                        responsiveVoice.speak("hello");
-                    }
-                    else if(frameCount===150){
-                        responsiveVoice.cancel();
-                        responsiveVoice.speak("my name is friendabot");
-                    }
-                    else if(frameCount===250){   
-                        responsiveVoice.cancel();
-                        responsiveVoice.speak("Meet my friend Sam")
-                    }
-                    else if(frameCount===350){
-                        responsiveVoice.cancel()
-                        responsiveVoice.speak("Hey! Enough Introduction about ourselves! What is your name?","Hindi Male")
-                    }if(frameCount===350){
-                        nameForm.display()
-                    }
-                }
+        //Play sounds
+    
+        if (frameCount === 50) {
+            responsiveVoice.speak("hello");
+        }
+        else if (frameCount === 150) {
+            responsiveVoice.cancel();
+            responsiveVoice.speak("my name is friendabot");
+        }
+        else if (frameCount === 250) {
+            responsiveVoice.cancel();
+            responsiveVoice.speak("Meet my friend Sam")
+        }
+        else if (frameCount === 350) {
+            responsiveVoice.cancel()
+            responsiveVoice.speak("Hey! Enough Introduction about ourselves! What is your name?", "Hindi Male")
+        } if (frameCount === 350) {
+            nameForm.display()
+        }
 
+        //Update engine
+        Engine.update(engine);
+        //console.log(frameCount)
+        //Display cartoon friend 'friendabot'
+        friend.display();
                     
-            //Update engine
-                Engine.update(engine);
-                console.log(frameCount)
-            //Display cartoon friend 'friendabot'
-                friend.display();
-                                
-            //Give texts settings
-                getTextColor();
-                noStroke();
-                textSize(20)                    
-                if(frameCount>250)
-                friend2.display();
-                nameForm.updateName()
-                ageForm.updateAge()
-            }
+        //Give texts settings
+        noStroke();
+        textSize(20)
+        if (frameCount > 250)
+            friend2.display();
+        //nameForm.updateName()
+        //ageForm.updateAge()
+    }
 
 }
 
@@ -110,28 +107,28 @@ function draw(){
 
 
 //Create a function which will detect if it is day or night and change color of text accordingly
-    async function getTextColor(){
-        var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
-        var responseJSON = await response.json();
-        var hour = responseJSON.datetime.slice(11,13)
-        if(hour>=06 && hour<=17){
-            fill("black")
-        }else {
-            fill("white")
-        }
-        
+async function getTextColor(){
+    var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
+    var responseJSON = await response.json();
+    var hour = responseJSON.datetime.slice(11,13)
+    if(hour>=06 && hour<=17){
+        fill("black")
+    }else {
+        fill("white")
     }
+    
+}
     
     
 //Create a function which will detect if it is day or night and change background accordingly
-    async function getBackgroundImg(){
-        var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
-        var responseJSON = await response.json();
-        var hour = responseJSON.datetime.slice(11,13)
-        if(hour>=06 && hour<=17){
-            backgroundImg = loadImage("images/background.jpg");
-        }else {
-            backgroundImg = loadImage("images/background1.jpg");
-        }
-        
+async function getBackgroundImg(){
+    var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
+    var responseJSON = await response.json();
+    var hour = responseJSON.datetime.slice(11,13)
+    if(hour>=06 && hour<=17){
+        backgroundImg = loadImage("images/background.jpg");
+    }else {
+        backgroundImg = loadImage("images/background1.jpg");
     }
+    
+}
